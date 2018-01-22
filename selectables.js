@@ -1,23 +1,23 @@
 /*
- *   Selectables  
- *   
+ *   Selectables
+ *
  *   v1.4.1
- *       
+ *
  *   https://github.com/p34eu/Selectables.git
  */
 
 function Selectables(opts) {
     'use strict';
     var defaults = {
-        zone: "#wrapper", // ID of the element whith selectables.        
-        elements: "a", //  items to be selectable .list-group, #id > .class,'htmlelement' - valid querySelectorAll        
-        selectedClass: 'active', // class name to apply to seleted items      
-        key: false, //'altKey,ctrlKey,metaKey,false  // activate using optional key     
+        zone: "#wrapper", // ID of the element whith selectables.
+        elements: "a", //  items to be selectable .list-group, #id > .class,'htmlelement' - valid querySelectorAll
+        selectedClass: 'active', // class name to apply to seleted items
+        key: false, //'altKey,ctrlKey,metaKey,false  // activate using optional key
         moreUsing: 'shiftKey', //altKey,ctrlKey,metaKey   // add more to selection
-        enabled: true, //false to .enable() at later time       
+        enabled: true, //false to .enable() at later time
         start: null, //  event on selection start
         stop: null, // event on selection end
-        onSelect: null, // event fired on every item when selected.               
+        onSelect: null, // event fired on every item when selected.
         onDeselect: null         // event fired on every item when selected.
     };
     var extend = function extend(a, b) {
@@ -38,14 +38,13 @@ function Selectables(opts) {
                 callback.call(scope, items[i], i, items);
             }
         }
-    }
+    };
     this.options = extend(defaults, opts || {});
     this.on = false;
     var self = this;
     this.enable = function () {
         if (this.on) {
             throw new Error(this.constructor.name + " :: is alredy enabled");
-            return;
         }
         this.zone = document.querySelector(this.options.zone);
         if (!this.zone) {
@@ -64,13 +63,13 @@ function Selectables(opts) {
     };
     var offset = function (el) {
         var r = el.getBoundingClientRect();
-        return {top: r.top + document.body.scrollTop, left: r.left + document.body.scrollLeft}
+        return {top: r.top + document.body.scrollTop, left: r.left + document.body.scrollLeft};
     };
     this.suspend = function (e) {
         e.preventDefault();
         e.stopPropagation();
         return false;
-    }
+    };
     this.rectOpen = function (e) {
         self.options.start && self.options.start(e);
         if (self.options.key && !e[self.options.key]) {
@@ -127,7 +126,7 @@ function Selectables(opts) {
         });
         a.parentNode.removeChild(a);
         self.options.stop && self.options.stop(e);
-    }
+    };
     this.rectDraw = function (e) {
         var g = rb();
         if (!self.ipos || g === null) {
@@ -141,10 +140,13 @@ function Selectables(opts) {
             tmp = y2, y2 = y1, y1 = tmp;
         }
         g.style.left = x1 + 'px', g.style.top = y1 + 'px', g.style.width = (x2 - x1) + 'px', g.style.height = (y2 - y1) + 'px';
-    }
+    };
     this.options.selectables = this;
     if (this.options.enabled) {
         return this.enable();
     }
     return this;
 }
+
+if (module)
+    module.exports = Selectables;
