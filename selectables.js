@@ -14,6 +14,7 @@ function Selectables(opts) {
         selectedClass: 'active', // class name to apply to seleted items
         key: false, //'altKey,ctrlKey,metaKey,false  // activate using optional key
         moreUsing: 'shiftKey', //altKey,ctrlKey,metaKey   // add more to selection
+        alwaysMoreSelect: false, // always add more to selection, without keyboard key
         enabled: true, //false to .enable() at later time
         start: null, //  event on selection start
         stop: null, // event on selection end
@@ -78,7 +79,7 @@ function Selectables(opts) {
         document.body.classList.add('s-noselect');
         self.foreach(self.items, function (el) {
             el.addEventListener('click', self.suspend, true); //skip any clicks
-            if (!e[self.options.moreUsing]) {
+            if (!e[self.options.moreUsing] && !self.options.alwaysMoreSelect) {
                 el.classList.remove(self.options.selectedClass);
             }
         });
